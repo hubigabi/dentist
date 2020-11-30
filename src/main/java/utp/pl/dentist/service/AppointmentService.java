@@ -1,13 +1,16 @@
 package utp.pl.dentist.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import utp.pl.dentist.model.Appointment;
 import utp.pl.dentist.model.OpenDay;
 import utp.pl.dentist.model.OpenHour;
 import utp.pl.dentist.repository.AppointmentRepository;
 
+import javax.mail.MessagingException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -15,6 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class AppointmentService {
 
     private static final int APPOINTMENT_DURATION_HOURS = 1;
@@ -121,6 +125,25 @@ public class AppointmentService {
         return getByLocalDate(localDateTime.toLocalDate()).stream()
                 .mapToInt(appointment -> appointment.getLocalDateTime().getHour())
                 .noneMatch(value -> value == localDateTime.getHour());
+    }
+
+//    @Scheduled(fixedRate = 1000 * 60)
+    @Scheduled(cron = "0 0 8 * * 1-5", zone = "Europe/Warsaw")
+    public void sendTodayScheduleMail() throws MessagingException {
+        String mail = "hubigabi19@gmail.com";
+        String subject = "Dentist - today schedule";
+        String text = "Today schedule:\n"
+                + getByLocalDate(LocalDate.now()).stream()
+                .map(appointment -> String.format("%02d", appointment.getLocalDateTime().getHour())
+                        + ":" + String.format("%02d", appointment.getLocalDateTime().getMinute())
+                        + " - " + appointment.getName()
+                )
+                .collect(Collectors.joining("\n"));
+
+        log.info("Today schedule:");
+        log.info(text);
+
+        mailService.sendMail(mail, subject, text, false);
     }
 
 }

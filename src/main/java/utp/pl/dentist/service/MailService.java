@@ -29,4 +29,5 @@ public class MailService {
         mimeMessageHelper.setText(text, isHtmlContent);
         javaMailSender.send(mimeMessage);
     }
+
 }
