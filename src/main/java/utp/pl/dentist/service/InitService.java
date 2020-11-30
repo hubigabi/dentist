@@ -36,12 +36,14 @@ public class InitService {
         final int APPOINTMENT_DURATION_HOURS = 1;
 
         LocalDateTime currentDateTime = LocalDateTime.now();
-        LocalDateTime appointmentDateTime = currentDateTime.minusDays(5).withHour(OpenHour.OPENING_HOUR.hour).withMinute(0).withSecond(0).withNano(0);
+        LocalDateTime appointmentDateTime = currentDateTime.minusDays(5)
+                .withHour(OpenHour.OPENING_HOUR.hour).withMinute(0).withSecond(0).withNano(0);
         appointmentDateTime = changeDateToOpen(appointmentDateTime);
 
         for (int i = 0; i < APPOINTMENTS_NUMBER; i++) {
             String name = loremIpsum.getName();
             String email = name.replaceAll("\\s+", "") + EMAIL_SUFFIX;
+            String comment = loremIpsum.getWords(30, 50);
 
             appointmentDateTime = appointmentDateTime.plusHours(1);
             if (appointmentDateTime.getHour() + APPOINTMENT_DURATION_HOURS > OpenHour.CLOSING_HOUR.hour) {
@@ -49,7 +51,7 @@ public class InitService {
                 appointmentDateTime = changeDateToOpen(appointmentDateTime);
             }
 
-            Appointment appointment = new Appointment(0L, name, email, appointmentDateTime);
+            Appointment appointment = new Appointment(0L, name, email, comment, appointmentDateTime);
             appointments.add(appointment);
         }
         appointmentService.saveAll(appointments);

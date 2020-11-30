@@ -45,7 +45,8 @@ public class AppointmentService {
 
             try {
                 mailService.sendMail("hubigabi19@gmail.com", "Dentist - appointment",
-                        "Your appointment will be: " + getFormattedString(appointment.getLocalDateTime()), false);
+                        "Your appointment will be: " + getFormattedString(appointment.getLocalDateTime()),
+                        false);
             } catch (Exception e) {
                 e.printStackTrace();
             }

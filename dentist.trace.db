@@ -1,0 +1,3 @@
+2020-11-26 02:58:24 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "COMMENT VARCHAR(255)": "'solum quidam verterem tantas blandit disputationi pericula sonet option reprehendunt eius electram cum agam convenire facilisis... (334)"; SQL statement:
+insert into appointment (id, comment, email, local_date_time, name) values (null, ?, ?, ?, ?) [22001-200]

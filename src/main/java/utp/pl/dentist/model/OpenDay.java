@@ -1,8 +1,8 @@
 package utp.pl.dentist.model;
 
-        import java.time.DayOfWeek;
-        import java.util.Arrays;
-        import java.util.List;
+import java.time.DayOfWeek;
+import java.util.Arrays;
+import java.util.List;
 
 public enum OpenDay {
 
